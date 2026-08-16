@@ -1,0 +1,30 @@
+# ─────────────────────────────────────────────
+#  Inference Configuration
+# ─────────────────────────────────────────────
+
+# I/O
+data:
+  input_dir:    "dataset/Test_NoisyLR/NoisyLR"
+  output_dir:   "predictions/"
+  num_io_workers: 16            # ThreadPoolExecutor workers for np.load + disk write
+
+# Model checkpoint
+model:
+  checkpoint:   "checkpoints/best_psnr.pth"
+  upscale:      2
+
+# Inference runtime
+infer:
+  batch_size:    64             # B=64 fills H100 SMs comfortably within 80 GB HBM3
+  amp_dtype:     "bfloat16"
+  compile:       true
+  # Development: max-autotune-no-cudagraphs
+  # Final submission: max-autotune  (enable use_cuda_graphs below)
+  compile_mode:  "max-autotune-no-cudagraphs"
+  use_cuda_graphs: false        # flip to true for final fixed-batch submission
+  warmup_iters:  3              # warm-up passes before capturing CUDA graph
+
+# Output format
+output:
+  format:      "npy"            # save as .npy float32 (matches input format)
+  save_png:    true             # also save 8-bit PNG for visual inspection

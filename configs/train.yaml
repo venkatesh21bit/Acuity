@@ -1,0 +1,64 @@
+# ─────────────────────────────────────────────
+#  Training Configuration
+# ─────────────────────────────────────────────
+#
+#  GPU-specific settings:
+#  ┌─────────────────┬─────────────┬─────────────────────────────┐
+#  │ GPU             │ amp_dtype   │ compile                     │
+#  ├─────────────────┼─────────────┼─────────────────────────────┤
+#  │ H100 / A100     │ bfloat16    │ true  (max-autotune-no-cg)  │
+#  │ T4 (Colab free) │ float16     │ false (torch.compile slow)  │
+#  │ CPU             │ float32     │ false                       │
+#  └─────────────────┴─────────────┴─────────────────────────────┘
+#  The colab_setup.py script patches this file automatically for T4.
+
+# Dataset
+data:
+  train_gt_dir:   "dataset/train/train/GT"
+  train_lr_dir:   "dataset/train/train/NoisyLR"
+  val_split:      0.1          # 10 % of 3200 = 320 val pairs
+  num_workers:    8
+  pin_memory:     true
+  prefetch_factor: 4
+
+# Spatial dimensions
+image:
+  lr_size:  128
+  hr_size:  256
+  channels: 1                  # grayscale .npy arrays
+
+# Model
+model:
+  width:       64              # base channel width
+  enc_blocks:  [2, 2, 4, 8]   # NAFBlocks per encoder level
+  dec_blocks:  [2, 2, 2, 2]   # NAFBlocks per decoder level
+  upscale:     2               # PixelShuffle ×2
+
+# Compound loss
+loss:
+  lambda_charb:   1.0
+  lambda_msssim:  0.1
+  lambda_lpips:   0.05
+  lambda_sobel:   0.01
+  moo:            "homoscedastic"  # learnable log-sigma per loss
+  charb_eps:      1.0e-3
+
+# Training
+train:
+  batch_size:    16
+  epochs:        200
+  lr:            2.0e-4
+  weight_decay:  1.0e-4
+  warmup_steps:  1000
+  grad_clip:     1.0
+  amp_dtype:     "bfloat16"
+  compile:       true
+  compile_mode:  "max-autotune-no-cudagraphs"
+
+# Logging & checkpoints
+logging:
+  log_interval:   50           # steps
+  val_interval:   1            # epochs
+  checkpoint_dir: "checkpoints/"
+  save_best_psnr: true
+  save_best_lpips: true
