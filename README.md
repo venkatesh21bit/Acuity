@@ -2,6 +2,9 @@
 
 This repository implements a joint denoising and super-resolution pipeline targeting multiplicative speckle and additive Gaussian noise. 
 
+## 🌟 Results
+![Result Sample](result_sample.png)
+
 ## 🧠 Approach
 
 Restoring signal-degraded, downsampled images containing multiplicative speckle and additive Gaussian noise requires a specialized approach. Our solution combines three major innovations:
