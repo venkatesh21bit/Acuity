@@ -67,7 +67,8 @@ def main():
             "enc_blocks": [2, 2, 4, 8],
             "dec_blocks": [2, 2, 2, 2],
             "upscale": 2
-        }
+        },
+        "train": {"compile": False}
     }
     model = build_model(model_cfg, device)
     
