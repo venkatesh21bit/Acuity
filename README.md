@@ -2,6 +2,26 @@
 
 This repository implements a joint denoising and super-resolution pipeline targeting multiplicative speckle and additive Gaussian noise. 
 
+## 🎯 Reviewer Quick Start (Evaluation)
+To instantly evaluate our model on a fresh machine (e.g., Google Colab), run the following commands. This will clone the repository, download the trained model, and run the automated evaluation script (`evaluate.py`) on the test dataset.
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/venkatesh21bit/Acuity.git
+cd Acuity
+
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Download the 318MB trained model via Git LFS
+git lfs pull
+
+# 4. Run the automated evaluation script
+python evaluate.py --input dataset/Test_NoisyLR/NoisyLR --output reviewer_results
+```
+*Note: The script automatically loads `checkpoint/latest_epoch200.pth`. The restored images will be saved in the `reviewer_results/` folder.*
+
+
 ## 🌟 Results
 ![Result Sample](result_sample.png)
 
