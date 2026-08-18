@@ -47,7 +47,7 @@ def main():
     parser = argparse.ArgumentParser(description="Standalone Evaluation Script for NAFNet")
     parser.add_argument("-i", "--input",  required=True, help="Path to directory containing test images (.npy, .png, etc.)")
     parser.add_argument("-o", "--output", required=True, help="Path to directory to save restored outputs")
-    parser.add_argument("-c", "--ckpt",   default="checkpoint/best_psnr.pth", help="Path to model checkpoint")
+    parser.add_argument("-c", "--ckpt",   default="checkpoint/latest_epoch200.pth", help="Path to model checkpoint")
     args = parser.parse_args()
 
     os.makedirs(args.output, exist_ok=True)
