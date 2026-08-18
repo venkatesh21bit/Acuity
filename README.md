@@ -91,9 +91,9 @@ python train.py --config configs/train.yaml --overfit-batch
 ```
 
 ### 4. Inference
-To run inference on a folder of noisy images:
+To run inference on a folder of noisy images (e.g., for benchmarking):
 ```bash
-python infer.py --config configs/train.yaml --ckpt checkpoints/best_psnr.pth --input /path/to/noisy --output /path/to/results
+python evaluate.py --input /path/to/test_images --output /path/to/results --ckpt checkpoints/latest_epoch200.pth
 ```
 
 ## ⚡ Running on H100 GPUs
